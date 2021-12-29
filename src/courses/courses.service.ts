@@ -44,8 +44,13 @@ export class CoursesService {
 
   putCourse(courseId: any, createCourseDto: any) {
     return new Promise((resolve) => {
+      const existCourse = this.courses.find((c: any) => c.id === courseId);
+      if (!existCourse) {
+        resolve('error');
+      }
+      this.courses.splice(this.courses.indexOf(existCourse));
       this.courses.push(createCourseDto);
-      resolve(this.courses);
+      resolve(this.courses.shift());
     });
   }
 }

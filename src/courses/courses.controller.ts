@@ -6,6 +6,7 @@ import {
   Body,
   Delete,
   Query,
+  Put,
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './create-course.dto';
@@ -36,5 +37,17 @@ export class CoursesController {
   async deleteCourse(@Query() query) {
     const courses = await this.coursesService.deleteCourse(query.courseId);
     return courses;
+  }
+
+  @Put(':courseId')
+  async putCourse(
+    @Param('courseId') courseId,
+    @Body() createCourseDto: CreateCourseDto,
+  ) {
+    const course = await this.coursesService.putCourse(
+      courseId,
+      createCourseDto,
+    );
+    return course;
   }
 }

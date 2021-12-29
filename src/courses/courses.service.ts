@@ -1,4 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
+import { title } from 'process';
 import { COURSES } from './courses.mock';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class CoursesService {
       resolve(this.courses);
     });
   }
+
   getCourse(coursesId): Promise<any> {
     const id = Number(coursesId);
     return new Promise((resolve) => {
@@ -36,6 +38,13 @@ export class CoursesService {
         throw new HttpException('Course does not exist', 404);
       }
       this.courses.splice(index, 1);
+      resolve(this.courses);
+    });
+  }
+
+  putCourse(courseId: any, createCourseDto: any) {
+    return new Promise((resolve) => {
+      this.courses.push(createCourseDto);
       resolve(this.courses);
     });
   }

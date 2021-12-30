@@ -1,6 +1,8 @@
+import * as fs from 'fs';
 import { HttpException, Injectable } from '@nestjs/common';
 import { title } from 'process';
 import { COURSES } from './courses.mock';
+import { rejects } from 'assert';
 
 @Injectable()
 export class CoursesService {
@@ -51,6 +53,19 @@ export class CoursesService {
       this.courses.splice(this.courses.indexOf(existCourse));
       this.courses.push(createCourseDto);
       resolve(this.courses.shift());
+    });
+  }
+
+  // writeFile function with filename, content and callback function
+  saveCourse(courses) {
+    return new Promise((resolve) => {
+      fs.writeFile('courses.json', JSON.stringify(courses), function (err) {
+        if (err) {
+          throw err;
+        } else {
+          resolve('ok!');
+        }
+      });
     });
   }
 }
